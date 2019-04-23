@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\IpAddress;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Nette\Utils\JsonException;
 use Ramsey\Uuid\UuidInterface;
 
 class IpAddressFacade
@@ -18,19 +19,28 @@ class IpAddressFacade
 	/** @var IpAddressFactory */
 	private $ipAddressFactory;
 
+	/** @var IpAddressResolver */
+	private $ipAddressResolver;
+
 	public function __construct(
 		EntityManagerInterface $entityManager,
 		IpAddressRepository $ipAddressRepository,
-		IpAddressFactory $ipAddressFactory
+		IpAddressFactory $ipAddressFactory,
+		IpAddressResolver $ipAddressResolver
 	) {
 		$this->entityManager = $entityManager;
 		$this->ipAddressRepository = $ipAddressRepository;
 		$this->ipAddressFactory = $ipAddressFactory;
+		$this->ipAddressResolver = $ipAddressResolver;
 	}
 
-	public function create(IpAddressData $ipAddressData): IpAddress
+	/**
+	 * @throws JsonException
+	 */
+	public function create(string $address): IpAddress
 	{
-		$ipAddress = $this->ipAddressFactory->create($ipAddressData);
+		$data = $this->ipAddressResolver->resolve($address);
+		$ipAddress = $this->ipAddressFactory->create($data);
 
 		$this->entityManager->persist($ipAddress);
 		$this->entityManager->flush();
