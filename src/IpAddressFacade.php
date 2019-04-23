@@ -39,8 +39,7 @@ class IpAddressFacade
 	 */
 	public function create(string $address): IpAddress
 	{
-		$data = $this->ipAddressResolver->resolve($address);
-		$ipAddress = $this->ipAddressFactory->create($data);
+		$ipAddress = $this->ipAddressFactory->create($address);
 
 		$this->entityManager->persist($ipAddress);
 		$this->entityManager->flush();
