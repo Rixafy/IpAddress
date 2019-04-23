@@ -18,4 +18,9 @@ class IpAddressNotFoundException extends Exception
 	{
 		return new self('IpAddress with address "' . $address . '" not found.');
 	}
+
+	public static function byDomainHost(string $domainHost)
+	{
+		return new self('IpAddress with domain_host "' . $domainHost . '" not found.');
+	}
 }

@@ -13,4 +13,7 @@ class IpAddressData
 
 	/** @var Country */
 	public $country;
+
+	/** @var int */
+	public $pageLoads = 0;
 }

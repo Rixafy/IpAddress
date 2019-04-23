@@ -51,13 +51,36 @@ class IpAddress
 	 */
 	private $country;
 
+	/**
+	 * @var int
+	 * @ORM\Column(type="integer")
+	 */
+	private $page_loads;
+
 	public function __construct(IpAddressData $data)
 	{
-		$this->country = $data->country;
-		$this->domain_host = gethostbyaddr($data->ipAddress);
 		$this->is_ipv6 = strlen($data->ipAddress) > 15;
 		$this->ipv6_address = $this->is_ipv6 ? Uuid::fromBytes(inet_pton($data->ipAddress)) : null;
 		$this->ipv4_address = $this->is_ipv6 ? null : ip2long($data->ipAddress);
+		$this->edit($data);
+	}
+
+	public function edit(IpAddressData $data): void
+	{
+		$this->domain_host = gethostbyaddr($data->ipAddress);
+		$this->country = $data->country;
+		$this->page_loads = $data->pageLoads;
+	}
+
+	public function getData(): IpAddressData
+	{
+		$data = new IpAddressData();
+
+		$data->ipAddress = $this->getAddress();
+		$data->country = $this->country;
+		$data->pageLoads = $this->page_loads;
+
+		return $data;
 	}
 
 	public function getAddress(): string
@@ -78,5 +101,10 @@ class IpAddress
 	public function getCountry(): Country
 	{
 		return $this->country;
+	}
+
+	public function addPageLoad(): void
+	{
+		$this->page_loads++;
 	}
 }
