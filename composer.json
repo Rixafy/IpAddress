@@ -12,6 +12,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^7.2",
-        "doctrine/orm": "2.7.x-dev"
+        "doctrine/orm": "2.7.x-dev",
+        "rixafy/doctrine-traits": "dev-master"
     }
 }
