@@ -13,6 +13,7 @@
     "require": {
         "php": "^7.2",
         "doctrine/orm": "2.7.x-dev",
-        "rixafy/doctrine-traits": "dev-master"
+        "rixafy/doctrine-traits": "dev-master",
+        "rixafy/country": "dev-master"
     }
 }
