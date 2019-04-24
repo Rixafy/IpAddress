@@ -10,6 +10,11 @@
         }
     ],
     "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Rixafy\\IpAddress\\": "src"
+        }
+    },
     "require": {
         "php": "^7.2",
         "doctrine/orm": "2.7.x-dev",
@@ -17,5 +22,10 @@
         "rixafy/country": "dev-master",
         "nette/utils": "^3.0@dev",
         "peterkahl/country-to-locale": "dev-master"
+    },
+    "config": {
+        "platform": {
+            "php": "7.3"
+        }
     }
 }
