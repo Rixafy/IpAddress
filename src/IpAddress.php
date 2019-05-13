@@ -13,8 +13,8 @@ use Rixafy\DoctrineTraits\UniqueTrait;
 /**
  * @ORM\Entity
  * @ORM\Table(name="ip_address", indexes={
- *     @ORM\Index(name="search_ipv4_index", columns={"ipv4_address"}),
- *     @ORM\Index(name="search_ipv6_index", columns={"ipv6_address"})
+ *     @ORM\Index(name="search_ipv4_index", columns={"ipv4Address"}),
+ *     @ORM\Index(name="search_ipv6_index", columns={"ipv6Address"})
  * })
  */
 class IpAddress
