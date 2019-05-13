@@ -25,25 +25,25 @@ class IpAddress
 	 * @var UuidInterface
 	 * @ORM\Column(type="uuid_binary", nullable=true)
 	 */
-	private $ipv6_address;
+	private $ipv6Address;
 
 	/**
 	 * @var int
 	 * @ORM\Column(type="integer", options={"unsigned"=true}, nullable=true)
 	 */
-	private $ipv4_address;
+	private $ipv4Address;
 
 	/**
 	 * @var boolean
 	 * @ORM\Column(type="boolean")
 	 */
-	private $is_ipv6;
+	private $isIpv6;
 
 	/**
 	 * @var string
 	 * @ORM\Column(type="string")
 	 */
-	private $domain_host;
+	private $domainHost;
 
 	/**
 	 * @var Country
@@ -55,21 +55,21 @@ class IpAddress
 	 * @var int
 	 * @ORM\Column(type="integer")
 	 */
-	private $page_loads;
+	private $pageLoads;
 
 	public function __construct(IpAddressData $data)
 	{
-		$this->is_ipv6 = strlen($data->ipAddress) > 15;
-		$this->ipv6_address = $this->is_ipv6 ? Uuid::fromBytes(inet_pton($data->ipAddress)) : null;
-		$this->ipv4_address = $this->is_ipv6 ? null : ip2long($data->ipAddress);
+		$this->isIpv6 = strlen($data->ipAddress) > 15;
+		$this->ipv6Address = $this->isIpv6 ? Uuid::fromBytes(inet_pton($data->ipAddress)) : null;
+		$this->ipv4Address = $this->isIpv6 ? null : ip2long($data->ipAddress);
 		$this->edit($data);
 	}
 
 	public function edit(IpAddressData $data): void
 	{
-		$this->domain_host = gethostbyaddr($data->ipAddress);
+		$this->domainHost = gethostbyaddr($data->ipAddress);
 		$this->country = $data->country;
-		$this->page_loads = $data->pageLoads;
+		$this->pageLoads = $data->pageLoads;
 	}
 
 	public function getData(): IpAddressData
@@ -78,24 +78,24 @@ class IpAddress
 
 		$data->ipAddress = $this->getAddress();
 		$data->country = $this->country;
-		$data->pageLoads = $this->page_loads;
+		$data->pageLoads = $this->pageLoads;
 
 		return $data;
 	}
 
 	public function getAddress(): string
 	{
-		return $this->is_ipv6 ? (string) $this->ipv6_address : long2ip($this->ipv4_address);
+		return $this->isIpv6 ? (string) $this->ipv6Address : long2ip($this->ipv4Address);
 	}
 
 	public function getDomainHost(): string
 	{
-		return $this->domain_host;
+		return $this->domainHost;
 	}
 
 	public function isIpv6(): bool
 	{
-		return $this->is_ipv6;
+		return $this->isIpv6;
 	}
 
 	public function getCountry(): Country
@@ -105,6 +105,6 @@ class IpAddress
 
 	public function addPageLoad(): void
 	{
-		$this->page_loads++;
+		$this->pageLoads++;
 	}
 }

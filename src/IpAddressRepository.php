@@ -57,11 +57,11 @@ class IpAddressRepository
 		/** @var $ipAddress IpAddress */
 		if ($isIpv6) {
 			$ipAddress = $this->getRepository()->findOneBy([
-				'ipv6_address' => Uuid::fromBytes(inet_pton($address))
+				'ipv6Address' => Uuid::fromBytes(inet_pton($address))
 			]);
 		} else {
 			$ipAddress = $this->getRepository()->findOneBy([
-				'ipv4_address' => ip2long($address)
+				'ipv4Address' => ip2long($address)
 			]);
 		}
 
@@ -79,7 +79,7 @@ class IpAddressRepository
 	{
 		/** @var $ipAddress IpAddress */
 		$ipAddress = $this->getRepository()->findOneBy([
-			'domain_host' => $domainHost
+			'domainHost' => $domainHost
 		]);
 
 		if ($ipAddress === null) {
