@@ -30,7 +30,6 @@ class IpAddressResolver
 	}
 
 	/**
-	 * @throws JsonException
 	 * @throws Exception
 	 */
 	public function resolve(string $address): IpAddressData

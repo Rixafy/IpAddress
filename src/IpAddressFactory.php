@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Rixafy\IpAddress;
 
-use Nette\Utils\JsonException;
+use Exception;
 
 class IpAddressFactory
 {
@@ -17,7 +17,7 @@ class IpAddressFactory
 	}
 
 	/**
-	 * @throws JsonException
+	 * @throws Exception
 	 */
 	public function create(string $address): IpAddress
 	{
