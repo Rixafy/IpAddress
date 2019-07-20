@@ -85,7 +85,7 @@ class IpAddress
 
 	public function getAddress(): string
 	{
-		return $this->isIpv6 ? (string) $this->ipv6Address : long2ip($this->ipv4Address);
+		return $this->isIpv6 ? inet_ntop($this->ipv6Address->getBytes()) : long2ip($this->ipv4Address);
 	}
 
 	public function getDomainHost(): string
