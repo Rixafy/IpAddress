@@ -23,13 +23,13 @@ class IpAddress
 
 	/**
 	 * @var UuidInterface
-	 * @ORM\Column(type="uuid_binary", nullable=true)
+	 * @ORM\Column(name="ipv6_address", type="uuid_binary", nullable=true)
 	 */
 	private $ipv6Address;
 
 	/**
 	 * @var int
-	 * @ORM\Column(type="integer", options={"unsigned"=true}, nullable=true)
+	 * @ORM\Column(name="ipv4_address", type="integer", options={"unsigned"=true}, nullable=true)
 	 */
 	private $ipv4Address;
 
