@@ -18,10 +18,12 @@
     "require": {
         "php": "^7.2",
         "doctrine/orm": "2.6 - 3.0",
-        "rixafy/doctrine-traits": "dev-master",
-        "rixafy/country": "dev-master",
-        "nette/utils": "^3.0@dev",
-        "peterkahl/country-to-locale": "dev-master"
+        "rixafy/doctrine-traits": "^1.0",
+        "rixafy/country": "^1.0"
+    },
+    "require-dev": {
+        "peterkahl/country-to-locale": "dev-master",
+        "nette/utils": "^3.0"
     },
     "config": {
         "platform": {
