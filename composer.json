@@ -17,10 +17,10 @@
     },
     "require": {
         "php": "^7.2",
+        "ext-intl": "*",
         "doctrine/orm": "2.6 - 3.0",
         "rixafy/doctrine-traits": "^1.0",
-        "rixafy/country": "^1.0",
-        "peterkahl/country-to-locale": "^1.0"
+        "rixafy/country": "^1.0"
     },
     "require-dev": {
         "nette/utils": "^3.0"
