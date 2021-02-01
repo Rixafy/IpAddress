@@ -47,23 +47,42 @@ class IpAddressResolver
 				]
 			]);
 
-			if ($plainData = @file_get_contents('http://www.geoplugin.net/json.gp?ip=' . $address, false, $ctx)) {
-				$json = Json::decode($plainData);
-				try {
-					$country = $this->countryFacade->getByCodeAlpha2((string)$json->geoplugin_countryCode);
-				} catch(CountryNotFoundException $e) {
-					$countryData = new CountryData();
-
-					$countryData->name = (string) $json->geoplugin_countryName;
-					$countryData->codeCurrency = (string) $json->geoplugin_currencyCode;
-					$countryData->codeContinent = (string) $json->geoplugin_continentCode;
-					$countryData->codeAlpha2 = (string) $json->geoplugin_countryCode;
-					$countryData->codeLanguage = substr($this->countryToLocale($json->geoplugin_countryCode), 0, 2);
-
-					$country = $this->countryFactory->create($countryData);
+			$country = null;
+			$countryAlpha2Code = null;
+			if ($ip2loc = @file_get_contents('https://ip2c.org/' . $address, false, $ctx)) {
+				if (strlen($ip2loc) > 0) {
+					if ($ip2loc[0] === '1') {
+						$countryAlpha2Code= explode(';', $ip2loc)[1];
+					}
 				}
-			} else {
-				throw new Exception('Http request failed, geoplugin.net is unreachable.');
+			}
+
+			if ($countryAlpha2Code !== null) {
+				try {
+					$country = $this->countryFacade->getByCodeAlpha2($countryAlpha2Code);
+				} catch (CountryNotFoundException $e) {
+				}
+			}
+
+			if ($country === null) {
+				if ($plainData = @file_get_contents('http://www.geoplugin.net/json.gp?ip=' . $address, false, $ctx)) {
+					$json = Json::decode($plainData);
+					try {
+						$country = $this->countryFacade->getByCodeAlpha2((string)$json->geoplugin_countryCode);
+					} catch (CountryNotFoundException $e) {
+						$countryData = new CountryData();
+
+						$countryData->name = (string)$json->geoplugin_countryName;
+						$countryData->codeCurrency = (string)$json->geoplugin_currencyCode;
+						$countryData->codeContinent = (string)$json->geoplugin_continentCode;
+						$countryData->codeAlpha2 = (string)$json->geoplugin_countryCode;
+						$countryData->codeLanguage = substr($this->countryToLocale($json->geoplugin_countryCode), 0, 2);
+
+						$country = $this->countryFactory->create($countryData);
+					}
+				} else {
+					throw new Exception('Http request failed, geoplugin.net is unreachable.');
+				}
 			}
 		}
 
