@@ -60,8 +60,7 @@ class IpAddressResolver
 			if ($countryAlpha2Code !== null) {
 				try {
 					$country = $this->countryFacade->getByCodeAlpha2($countryAlpha2Code);
-				} catch (CountryNotFoundException $e) {
-				}
+				} catch (CountryNotFoundException $e) {}
 			}
 
 			if ($country === null) {
@@ -69,16 +68,22 @@ class IpAddressResolver
 					$json = Json::decode($plainData);
 					try {
 						$country = $this->countryFacade->getByCodeAlpha2((string)$json->geoplugin_countryCode);
+						
 					} catch (CountryNotFoundException $e) {
 						$countryData = new CountryData();
-
-						$countryData->name = (string)$json->geoplugin_countryName;
-						$countryData->codeCurrency = (string)$json->geoplugin_currencyCode;
-						$countryData->codeContinent = (string)$json->geoplugin_continentCode;
-						$countryData->codeAlpha2 = (string)$json->geoplugin_countryCode;
-						$countryData->codeLanguage = substr($this->countryToLocale($json->geoplugin_countryCode), 0, 2);
-
-						$country = $this->countryFactory->create($countryData);
+						
+                        if ($json->geoplugin_countryCode !== null) {
+                            $countryData->name = (string)$json->geoplugin_countryName;
+                            $countryData->codeCurrency = (string)$json->geoplugin_currencyCode;
+                            $countryData->codeContinent = (string)$json->geoplugin_continentCode;
+                            $countryData->codeAlpha2 = (string)$json->geoplugin_countryCode;
+                            $countryData->codeLanguage = substr($this->countryToLocale($json->geoplugin_countryCode), 0, 2);
+                            
+                            $country = $this->countryFactory->create($countryData);
+                            
+                        } else {
+                            $country = $this->countryFacade->getByCodeAlpha2('SK');
+                        }
 					}
 				} else {
 					throw new Exception('Http request failed, geoplugin.net is unreachable.');
