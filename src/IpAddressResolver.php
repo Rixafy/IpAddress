@@ -86,7 +86,13 @@ class IpAddressResolver
                         }
 					}
 				} else {
-					throw new Exception('Http request failed, geoplugin.net is unreachable.');
+					try {
+						$country = $this->countryFacade->getByCodeAlpha2('SK');
+						trigger_error('Http request failed, geoplugin.net is unreachable. Country was set to SK', E_USER_NOTICE);
+
+					} catch (CountryNotFoundException $e) {
+						throw new Exception('Http request failed, geoplugin.net is unreachableand SK country is not in the database.');
+					}
 				}
 			}
 		}
