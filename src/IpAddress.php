@@ -10,52 +10,32 @@ use Ramsey\Uuid\UuidInterface;
 use Rixafy\Country\Country;
 use Rixafy\DoctrineTraits\UniqueTrait;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="ip_address", indexes={
- *     @ORM\Index(name="search_ipv4_index", columns={"ipv4_address"}),
- *     @ORM\Index(name="search_ipv6_index", columns={"ipv6_address"})
- * })
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'ip_address')]
+#[ORM\Index(columns: ['ipv4_address'], name: 'search_ipv4_index')]
+#[ORM\Index(columns: ['ipv6_address'], name: 'search_ipv6_index')]
 class IpAddress
 {
 	use UniqueTrait;
 
-	/**
-	 * @var UuidInterface
-	 * @ORM\Column(name="ipv6_address", type="uuid_binary", nullable=true)
-	 */
-	private $ipv6Address;
+	#[ORM\Column(name: 'ipv6_address', type: 'uuid_binary', nullable: true)]
+	private ?UuidInterface $ipv6Address;
+	
+	#[ORM\Column(name: 'ipv4_address', nullable: true, options: ['unsigned' => true])]
+	private ?int $ipv4Address;
 
-	/**
-	 * @var int
-	 * @ORM\Column(name="ipv4_address", type="integer", options={"unsigned"=true}, nullable=true)
-	 */
-	private $ipv4Address;
+	#[ORM\Column]
+	private bool $isIpv6;
 
-	/**
-	 * @var boolean
-	 * @ORM\Column(type="boolean")
-	 */
-	private $isIpv6;
+	#[ORM\Column]
+	private string $domainHost;
+	
+	#[ORM\Column]
+	#[ORM\ManyToOne(targetEntity: Country::class, cascade: ['persist'])]
+	private Country $country;
 
-	/**
-	 * @var string
-	 * @ORM\Column(type="string")
-	 */
-	private $domainHost;
-
-	/**
-	 * @var Country
-	 * @ORM\ManyToOne(targetEntity="Rixafy\Country\Country", inversedBy="ip_address", cascade={"persist"})
-	 */
-	private $country;
-
-	/**
-	 * @var int
-	 * @ORM\Column(type="integer")
-	 */
-	private $pageLoads;
+	#[ORM\Column]
+	private int $pageLoads;
 
 	public function __construct(IpAddressData $data)
 	{
