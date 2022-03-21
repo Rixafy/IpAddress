@@ -30,7 +30,6 @@ class IpAddress
 	#[ORM\Column]
 	private string $domainHost;
 	
-	#[ORM\Column]
 	#[ORM\ManyToOne(targetEntity: Country::class, cascade: ['persist'])]
 	private Country $country;
 
