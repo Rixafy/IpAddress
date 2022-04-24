@@ -24,7 +24,7 @@
     },
     "require-dev": {
         "nette/utils": ">=3.0",
-        "ramsey/uuid": "dev-main"
+        "ramsey/uuid": ">=4.0"
     },
     "config": {
         "platform": {

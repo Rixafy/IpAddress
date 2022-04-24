@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Country\Country;
-use Rixafy\DoctrineTraits\UniqueTrait;
+use Rixafy\DoctrineTraits\UniqueUlidTrait;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'ip_address')]
@@ -16,7 +16,7 @@ use Rixafy\DoctrineTraits\UniqueTrait;
 #[ORM\Index(columns: ['ipv6_address'], name: 'search_ipv6_index')]
 class IpAddress
 {
-	use UniqueTrait;
+	use UniqueUlidTrait;
 
 	#[ORM\Column(name: 'ipv6_address', type: 'uuid_binary', nullable: true)]
 	private ?UuidInterface $ipv6Address;
